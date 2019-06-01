@@ -41,6 +41,7 @@ class MyMoviesController {
 				completion(error)
 				return
 			}
+			
 			CoreDataStack.shared.mainContext.performAndWait {
 				movie.identifier = identifier
 			}
@@ -48,7 +49,6 @@ class MyMoviesController {
 			try? CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
 			completion(nil)
 		}.resume()
-		
 	}
 	
 	func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> ()) {
@@ -80,6 +80,7 @@ class MyMoviesController {
 				completion(error)
 				return
 			}
+			
 			CoreDataStack.shared.mainContext.performAndWait {
 				movie.identifier = identifier
 			}
@@ -110,8 +111,6 @@ class MyMoviesController {
 				completion(NSError())
 				return
 			}
-			
-			print(data)
 			
 			do {
 				let result = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
