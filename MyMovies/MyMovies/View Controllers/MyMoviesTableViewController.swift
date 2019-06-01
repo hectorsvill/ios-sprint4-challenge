@@ -22,13 +22,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 			if let error = error {
 				print("Error fetching moives in MyMoviesTableViewController: \(error) ")
 			}
-			
-			DispatchQueue.main.async {
-				self.tableView.reloadData()
-			}
 		}
-		
-		
+
 	}
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -85,9 +80,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 			self.tableView.reloadData()
 		}
 		
-		
 	}
-	
 	
 	let myMovieController = MyMoviesController()
 	
