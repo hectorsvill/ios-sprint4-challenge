@@ -18,8 +18,6 @@ class MovieSearchTableViewCell: UITableViewCell {
 			if let error = error {
 				print("error putting movie: \(error)")
 				return 
-			} else {
-				
 			}
 		})
 		

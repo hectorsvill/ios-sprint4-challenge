@@ -8,15 +8,22 @@
 
 import UIKit
 
+protocol MyMoviesTableViewCellDelegate: AnyObject {
+	func simpleAlert() -> Bool
+}
+
 class MyMoviesTableViewCell: UITableViewCell {
 
 
 	@IBAction func unwatchedToggleButton(_ sender: Any) {
+		guard let check =  delegate?.simpleAlert(), check else { return }
+		
 		if let movie = movie {
 			movie.hasWatched.toggle()
 			myMovieController?.put(movie: movie, completion: { error in
 				if let error = error {
 					print("error updating movie: \(error)")
+					return
 				}
 			})
 		}
@@ -43,4 +50,5 @@ class MyMoviesTableViewCell: UITableViewCell {
 	@IBOutlet var titleLabel: UILabel!
 	var movie: Movie? { didSet {  setupViews() } }
 	var myMovieController: MyMoviesController?
+	weak var delegate: MyMoviesTableViewCellDelegate?
 }
