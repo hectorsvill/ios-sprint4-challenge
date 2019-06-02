@@ -66,11 +66,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 					return
 				}
 				
-				moc.performAndWait {
-					moc.delete(movie)
-				}
 			}
 		
+			moc.performAndWait {
+				moc.delete(movie)
+			}
 			do {
 				try moc.save()
 			} catch {
