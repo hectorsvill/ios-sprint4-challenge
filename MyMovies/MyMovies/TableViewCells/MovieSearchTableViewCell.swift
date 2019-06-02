@@ -8,26 +8,15 @@
 
 import UIKit
 
+protocol MovieSearchTableViewCellDelegate: AnyObject {
+	func checkAndSave(movieRep: MovieRepresentation)
+}
+
 class MovieSearchTableViewCell: UITableViewCell {
 
 	@IBAction func AddMovieButton(_ sender: Any) {
 		guard let movieRep = movieRep else { return }
-		let movie = Movie(title: movieRep.title)
-		
-		myMovieController?.put(movie: movie, completion: { error in
-			if let error = error {
-				print("error putting movie: \(error)")
-				return 
-			}
-		})
-		
-		do {
-			let moc = CoreDataStack.shared.mainContext
-			try moc.save()
-		} catch {
-			NSLog("Failed to save ->: \(error)")
-			return
-		}
+		delegate?.checkAndSave(movieRep: movieRep)
 	}
 	
 	private func setupViews() {
@@ -37,4 +26,5 @@ class MovieSearchTableViewCell: UITableViewCell {
 	@IBOutlet var titleLable: UILabel!
 	var movieRep: MovieRepresentation? { didSet { setupViews() } }
 	var myMovieController: MyMoviesController?
+	weak var delegate: MovieSearchTableViewCellDelegate?
 }

@@ -13,8 +13,6 @@ protocol MyMoviesTableViewCellDelegate: AnyObject {
 }
 
 class MyMoviesTableViewCell: UITableViewCell {
-
-
 	@IBAction func unwatchedToggleButton(_ sender: Any) {
 		guard let delegate =  delegate else { return }
 		delegate.simpleAlert(movie: movie)
@@ -26,7 +24,6 @@ class MyMoviesTableViewCell: UITableViewCell {
 		titleLabel?.text = title
 		let buttonTitle = movie.hasWatched ? "watched" : "unwatched"
 		watchedToggleButton.setTitle(buttonTitle, for: .normal)
-		
 	}
 	
 	@IBOutlet var watchedToggleButton: UIButton!
