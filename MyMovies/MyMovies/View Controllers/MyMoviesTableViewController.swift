@@ -158,7 +158,7 @@ extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
 			guard let title = action.title else { return }
 			
 			if title == "OK" {
-				//then run update function
+				self.updateMovieHasWatched(movie: movie)
 			}
 			
 		})

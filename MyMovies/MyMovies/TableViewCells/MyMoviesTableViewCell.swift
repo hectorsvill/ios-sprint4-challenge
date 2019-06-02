@@ -18,24 +18,6 @@ class MyMoviesTableViewCell: UITableViewCell {
 	@IBAction func unwatchedToggleButton(_ sender: Any) {
 		guard let delegate =  delegate else { return }
 		delegate.simpleAlert(movie: movie)
-		
-		
-//		if let movie = movie {
-//			movie.hasWatched.toggle()
-//			myMovieController?.put(movie: movie, completion: { error in
-//				if let error = error {
-//					print("error updating movie: \(error)")
-//					return
-//				}
-//			})
-//		}
-//
-//		do {
-//			let moc = CoreDataStack.shared.mainContext
-//			try moc.save()
-//		} catch {
-//			NSLog("Error updating movie to moc: \(error)")
-//		}
 	}
 	
 	private func setupViews() {
