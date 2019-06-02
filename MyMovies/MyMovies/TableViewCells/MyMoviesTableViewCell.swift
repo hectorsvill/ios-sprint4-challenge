@@ -29,6 +29,5 @@ class MyMoviesTableViewCell: UITableViewCell {
 	@IBOutlet var watchedToggleButton: UIButton!
 	@IBOutlet var titleLabel: UILabel!
 	var movie: Movie? { didSet {  setupViews() } }
-	var myMovieController: MyMoviesController?
 	weak var delegate: MyMoviesTableViewCellDelegate?
 }

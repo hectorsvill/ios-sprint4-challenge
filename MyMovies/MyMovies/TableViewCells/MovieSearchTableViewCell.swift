@@ -25,6 +25,5 @@ class MovieSearchTableViewCell: UITableViewCell {
 	
 	@IBOutlet var titleLable: UILabel!
 	var movieRep: MovieRepresentation? { didSet { setupViews() } }
-	var myMovieController: MyMoviesController?
 	weak var delegate: MovieSearchTableViewCellDelegate?
 }

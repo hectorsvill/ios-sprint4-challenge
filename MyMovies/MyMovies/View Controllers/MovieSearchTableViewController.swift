@@ -41,7 +41,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 		let movie = movieController.searchedMovies[indexPath.row]
 		
 		movieCell.movieRep = movie
-		movieCell.myMovieController = myMovieController
 		movieCell.delegate = self
         return movieCell
     }

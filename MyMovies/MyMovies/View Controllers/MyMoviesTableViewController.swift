@@ -47,7 +47,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 		guard let myMovieCell = cell as? MyMoviesTableViewCell else { return cell }
 		let movie = fetchedResultController.object(at: indexPath)
 		myMovieCell.movie = movie
-		myMovieCell.myMovieController = myMovieController
 		myMovieCell.delegate = self
 		return myMovieCell
 	}
