@@ -157,8 +157,10 @@ extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
 		ac.addAction(UIAlertAction(title: "OK", style: .default){ action in
 			guard let title = action.title else { return }
 			
-			print(title)
-			check = false
+			if title == "OK" {
+				//then run update function
+			}
+			
 		})
 		ac.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
 		present(ac, animated: true)
@@ -167,5 +169,23 @@ extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
 		return check
 	}
 	
+	func updateMovieHasWatched(movie: Movie?) {
+		if let movie = movie {
+			movie.hasWatched.toggle()
+			myMovieController.put(movie: movie, completion: { error in
+				if let error = error {
+					print("error updating movie: \(error)")
+					return
+				}
+			})
+		}
+		
+		do {
+			let moc = CoreDataStack.shared.mainContext
+			try moc.save()
+		} catch {
+			NSLog("Error updating movie to moc: \(error)")
+		}
+	}
 	
 }

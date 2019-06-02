@@ -22,22 +22,22 @@ class MyMoviesTableViewCell: UITableViewCell {
 			return
 		}
 		
-		if let movie = movie {
-			movie.hasWatched.toggle()
-			myMovieController?.put(movie: movie, completion: { error in
-				if let error = error {
-					print("error updating movie: \(error)")
-					return
-				}
-			})
-		}
-		
-		do {
-			let moc = CoreDataStack.shared.mainContext
-			try moc.save()
-		} catch {
-			NSLog("Error updating movie to moc: \(error)")
-		}
+//		if let movie = movie {
+//			movie.hasWatched.toggle()
+//			myMovieController?.put(movie: movie, completion: { error in
+//				if let error = error {
+//					print("error updating movie: \(error)")
+//					return
+//				}
+//			})
+//		}
+//
+//		do {
+//			let moc = CoreDataStack.shared.mainContext
+//			try moc.save()
+//		} catch {
+//			NSLog("Error updating movie to moc: \(error)")
+//		}
 	}
 	
 	private func setupViews() {
