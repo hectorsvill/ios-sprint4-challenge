@@ -157,7 +157,7 @@ extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
 		
 		let message = movie.hasWatched ? "unwatched" : "watched"
 		
-		let ac = UIAlertController(title: title.uppercased(), message: "\(message) movie", preferredStyle: .alert)
+		let ac = UIAlertController(title: title.uppercased(), message: "\(message) movie", preferredStyle: .actionSheet)
 		ac.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
 		ac.addAction(UIAlertAction(title: "OK", style: .default){ action in
 			guard let title = action.title else { return }
