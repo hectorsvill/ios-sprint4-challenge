@@ -151,9 +151,14 @@ extension MyMoviesTableViewController {
 
 extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
 	func simpleAlert(movie: Movie?) {
+		guard let movie = movie,
+			let title = movie.title
+			else { return }
 		
+		let message = movie.hasWatched ? "unwatched" : "watched"
 		
-		let ac = UIAlertController(title: "title", message: nil, preferredStyle: .alert)
+		let ac = UIAlertController(title: title.uppercased(), message: "\(message) movie", preferredStyle: .alert)
+		ac.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
 		ac.addAction(UIAlertAction(title: "OK", style: .default){ action in
 			guard let title = action.title else { return }
 			
@@ -162,11 +167,7 @@ extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
 			}
 			
 		})
-		ac.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
 		present(ac, animated: true)
-
-		
-		
 	}
 	
 	func updateMovieHasWatched(movie: Movie?) {
