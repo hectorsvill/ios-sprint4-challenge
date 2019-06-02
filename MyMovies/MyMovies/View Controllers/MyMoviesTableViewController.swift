@@ -17,17 +17,14 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
 		myMovieController.fetchMoviesFromServer { error in
 			if let error = error {
 				print("Error fetching moives in MyMoviesTableViewController: \(error) ")
 			}
 		}
-
 	}
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		
 		if fetchedResultController.sections?[section].name == "0" {
 			return "Unwatched"
 		} else {
@@ -51,12 +48,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 		let movie = fetchedResultController.object(at: indexPath)
 		myMovieCell.movie = movie
 		myMovieCell.myMovieController = myMovieController
+		myMovieCell.delegate = self
 		return myMovieCell
 	}
 	
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			
 			let movie = fetchedResultController.object(at: indexPath)
 			let moc = CoreDataStack.shared.mainContext
 
@@ -65,16 +62,16 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 					print("Error deleting movie from server: \(error)")
 					return
 				}
-				
 			}
 		
 			moc.performAndWait {
 				moc.delete(movie)
 			}
+			
 			do {
 				try moc.save()
 			} catch {
-				print("Error deleting from store: \(error) ")
+				print("Error deleting from store: \(error)")
 			}
 		
 			self.tableView.reloadData()
@@ -88,9 +85,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
 		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true), NSSortDescriptor(key: "title", ascending: true)]
 		let fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest,
-															   managedObjectContext: CoreDataStack.shared.mainContext,
-															   sectionNameKeyPath: "hasWatched",
-															   cacheName: nil)
+															   managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "hasWatched", cacheName: nil)
 		fetchResultController.delegate = self
 		
 		do {
@@ -152,6 +147,25 @@ extension MyMoviesTableViewController {
 		tableView.endUpdates()
 	}
 	
+}
+
+extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
+	func simpleAlert() -> Bool {
+		var check = true
+		
+		let ac = UIAlertController(title: "title", message: nil, preferredStyle: .alert)
+		ac.addAction(UIAlertAction(title: "OK", style: .default){ action in
+			guard let title = action.title else { return }
+			
+			print(title)
+			check = false
+		})
+		ac.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+		present(ac, animated: true)
+		print(check)
+		
+		return check
+	}
 	
 	
 }

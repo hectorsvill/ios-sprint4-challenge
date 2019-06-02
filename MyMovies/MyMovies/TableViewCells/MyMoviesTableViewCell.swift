@@ -16,7 +16,11 @@ class MyMoviesTableViewCell: UITableViewCell {
 
 
 	@IBAction func unwatchedToggleButton(_ sender: Any) {
-		guard let check =  delegate?.simpleAlert(), check else { return }
+		guard let check =  delegate?.simpleAlert() else { return }
+		
+		if !check {
+			return
+		}
 		
 		if let movie = movie {
 			movie.hasWatched.toggle()
@@ -44,7 +48,6 @@ class MyMoviesTableViewCell: UITableViewCell {
 		watchedToggleButton.setTitle(buttonTitle, for: .normal)
 		
 	}
-	
 	
 	@IBOutlet var watchedToggleButton: UIButton!
 	@IBOutlet var titleLabel: UILabel!
