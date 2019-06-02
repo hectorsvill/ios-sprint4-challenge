@@ -9,18 +9,16 @@
 import UIKit
 
 protocol MyMoviesTableViewCellDelegate: AnyObject {
-	func simpleAlert() -> Bool
+	func simpleAlert(movie: Movie?)
 }
 
 class MyMoviesTableViewCell: UITableViewCell {
 
 
 	@IBAction func unwatchedToggleButton(_ sender: Any) {
-		guard let check =  delegate?.simpleAlert() else { return }
+		guard let delegate =  delegate else { return }
+		delegate.simpleAlert(movie: movie)
 		
-		if !check {
-			return
-		}
 		
 //		if let movie = movie {
 //			movie.hasWatched.toggle()

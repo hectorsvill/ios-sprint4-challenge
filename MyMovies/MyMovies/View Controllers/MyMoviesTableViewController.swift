@@ -150,8 +150,8 @@ extension MyMoviesTableViewController {
 }
 
 extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
-	func simpleAlert() -> Bool {
-		var check = true
+	func simpleAlert(movie: Movie?) {
+		
 		
 		let ac = UIAlertController(title: "title", message: nil, preferredStyle: .alert)
 		ac.addAction(UIAlertAction(title: "OK", style: .default){ action in
@@ -164,9 +164,9 @@ extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
 		})
 		ac.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
 		present(ac, animated: true)
-		print(check)
+
 		
-		return check
+		
 	}
 	
 	func updateMovieHasWatched(movie: Movie?) {
