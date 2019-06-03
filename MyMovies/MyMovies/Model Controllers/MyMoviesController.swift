@@ -154,8 +154,9 @@ extension MyMoviesController {
 			if let movie = fetchSingleMovieFromPersistentStore(forUUID: identifier, context: context) {
 				movie.title = movieRep.title
 				movie.hasWatched = hasWatched
-			} else {
-				let _ = Movie(title: movieRep.title, context: context)
+			}
+			else {
+				let _ = Movie(title: movieRep.title, identifier: identifier, hasWatched: hasWatched, context: context)
 			}
 		}
 		
@@ -194,8 +195,7 @@ extension MyMoviesController {
 					
 					print(movies)
 					for movie in movies {
-						if let id = movie.identifier {
-							print(id)
+						if let _ = movie.identifier {
 							context.delete(movie)
 						}
 					}
