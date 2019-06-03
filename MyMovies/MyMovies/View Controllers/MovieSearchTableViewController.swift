@@ -61,14 +61,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 
 
 extension MovieSearchTableViewController: MovieSearchTableViewCellDelegate {
-	
-	
-	
-	
 	func checkAndSave(movieRep: MovieRepresentation) {
 		let title = movieRep.title
 		
 		let ac = UIAlertController(title: title, message: "Add this movie to MyMovies?", preferredStyle: .actionSheet)
+		
 		ac.addAction(UIAlertAction(title: "Ok", style: .default) { action in
 			guard let title = action.title else { return }
 			if title == "Ok" {
@@ -82,7 +79,6 @@ extension MovieSearchTableViewController: MovieSearchTableViewCellDelegate {
 	
 	func saveMovieToCoreData(movieRep: MovieRepresentation) {
 		let movie = Movie(title: movieRep.title)
-		
 		myMovieController.put(movie: movie, completion: { error in
 			if let error = error {
 				print("error putting movie: \(error)")

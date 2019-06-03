@@ -20,7 +20,6 @@ class MyMoviesTableViewCell: UITableViewCell {
 	
 	private func setupViews() {
 		guard let movie = movie, let title = movie.title else { return }
-		
 		titleLabel?.text = title
 		let buttonTitle = movie.hasWatched ? "watched" : "unwatched"
 		watchedToggleButton.setTitle(buttonTitle, for: .normal)
