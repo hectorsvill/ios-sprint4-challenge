@@ -204,6 +204,7 @@ extension MyMoviesController {
 			}
 		}
 		
+		try? CoreDataStack.shared.save(context: context)
 	}
 }
 
