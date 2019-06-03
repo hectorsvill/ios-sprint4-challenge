@@ -12,7 +12,7 @@ import CoreData
 class MyMoviesController {
 	
 	func put(movie: Movie, completion: @escaping (Error?) -> ()) {
-		let identifier = movie.identifier ?? UUID()
+		guard let identifier = movie.identifier else { return }
 		
 		let requestUrl = baseUrl.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
 		
@@ -52,7 +52,7 @@ class MyMoviesController {
 	}
 	
 	func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> ()) {
-		let identifier = movie.identifier ?? UUID()
+		guard let identifier = movie.identifier else { return }
 		let requestUrl = baseUrl.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
 		
 		var request = URLRequest(url: requestUrl)
@@ -118,12 +118,16 @@ class MyMoviesController {
 				try self.updateMovies(with: movieReps)
 				completion(nil)
 			} catch {
-				print("Error decoding movies from firebase: \(error)")
+				print("Database is empty!: \(error)")
+				self.deleteAllFromPesistentStore(context: CoreDataStack.shared.mainContext)
+				completion(error)
+
+				return
 			}
 			
 		}.resume()
 	}
-	
+
 	let baseUrl = URL(string: "https://movies-c2ab5.firebaseio.com/")!
 }
 
@@ -143,9 +147,7 @@ extension MyMoviesController {
 	}
 	
 	private func updateMovie(movieRep: MovieRepresentation, context: NSManagedObjectContext) {
-		guard let identifier = movieRep.identifier,
-			let hasWatched = movieRep.hasWatched else { return }
-		
+		guard let identifier = movieRep.identifier, let hasWatched = movieRep.hasWatched else { return }
 		
 		CoreDataStack.shared.mainContext.performAndWait {
 			
@@ -165,16 +167,44 @@ extension MyMoviesController {
 		fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
 		
 		var result: Movie? = nil
-		
+//		print(uuid.uuidString)
 		context.performAndWait {
 			do {
 				result = try context.fetch(fetchRequest).first
+				
 			} catch {
 				NSLog("Error fetching movie with predicate: \(error)")
 			}
 		}
 		
 		return result
+	}
+	
+	
+	private func deleteAllFromPesistentStore(context: NSManagedObjectContext) {
+		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+		
+		var result: [Movie]?
+		
+		context.performAndWait {
+			
+			do {
+				result = try context.fetch(fetchRequest)
+				if let movies = result {
+					
+					print(movies)
+					for movie in movies {
+						if let id = movie.identifier {
+							print(id)
+							context.delete(movie)
+						}
+					}
+				}
+			} catch {
+				print("Error fetching all: \(error)")
+			}
+		}
+		
 	}
 }
 

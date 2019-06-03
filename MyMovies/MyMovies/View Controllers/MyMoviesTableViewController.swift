@@ -20,7 +20,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 		myMovieController.fetchMoviesFromServer { error in
 			if let error = error {
 				print("Error fetching moives in MyMoviesTableViewController: \(error) ")
+				return
 			}
+			
 		}
 	}
 	
