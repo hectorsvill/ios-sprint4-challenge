@@ -154,8 +154,7 @@ extension MyMoviesController {
 			if let movie = fetchSingleMovieFromPersistentStore(forUUID: identifier, context: context) {
 				movie.title = movieRep.title
 				movie.hasWatched = hasWatched
-			}
-			else {
+			} else {
 				let _ = Movie(title: movieRep.title, identifier: identifier, hasWatched: hasWatched, context: context)
 			}
 		}
@@ -168,7 +167,7 @@ extension MyMoviesController {
 		fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
 		
 		var result: Movie? = nil
-//		print(uuid.uuidString)
+
 		context.performAndWait {
 			do {
 				result = try context.fetch(fetchRequest).first
